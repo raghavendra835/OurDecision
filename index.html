@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nannu Pelli Cheskuntava? 💍</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .couple { font-size: 90px; margin-bottom: 10px; animation: bounce 2s infinite; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        h1 { color: #fff; font-size: 28px; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+
+        button {
+            padding: 15px 35px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin: 10px;
+        }
+
+        #yesBtn { background: #28a745; color: #fff; }
+        #yesBtn:active { transform: scale(0.95); }
+
+        #noBtn {
+            background: #dc3545;
+            color: #fff;
+            position: absolute;
+            animation: shake 0.5s infinite;
+            transition: all 0.2s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0,0); }
+            25% { transform: translate(-2px, 2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, -2px); }
+        }
+
+        .success-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div class="couple">💍💐</div>
+        <h1>Nannu Pelli cheskuntava? 💘</h1>
+        <button id="yesBtn">Yes 💕</button>
+        <button id="noBtn">No 💔</button>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById("noBtn");
+        const yesBtn = document.getElementById("yesBtn");
+        const container = document.getElementById("mainContainer");
+
+        function moveNoBtn() {
+            const padding = 50;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            const x = Math.max(padding, Math.random() * maxX);
+            const y = Math.max(padding, Math.random() * maxY);
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        }
+
+        noBtn.addEventListener("mouseover", moveNoBtn);
+        noBtn.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            moveNoBtn();
+        });
+
+        yesBtn.addEventListener("click", () => {
+            // Launch Confetti
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                const particleCount = 50 * (timeLeft / duration);
+                confetti({ ...defaults, particleCount, origin: { x: Math.random(), y: Math.random() - 0.2 } });
+            }, 250);
+
+            // Update UI
+            container.innerHTML = `
+                <div class="success-screen">
+                    <div style="font-size: 100px;">💖</div>
+                    <h1>Sare! Inka Mana Pelli Fix! 💍</h1>
+                    <p style="font-size: 20px;">I love you! 🥰</p>
+                </div>`;
+        });
+    </script>
+</body>
+</html>
+
